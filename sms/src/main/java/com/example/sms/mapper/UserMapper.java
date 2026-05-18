@@ -1,7 +1,7 @@
 package com.example.sms.mapper;
 
 import com.example.sms.dto.UserDTO;
-import com.example.sms.entity.Users;
+import com.example.sms.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserMapper {
 
-    public UserDTO toDTO(Users user) {
+    public UserDTO toDTO(User user) {
         if (user == null) {
             return null;
         }
@@ -24,17 +24,17 @@ public class UserMapper {
         return userDTO;
     }
 
-    public Users toEntity(UserDTO userDTO) {
+    public User toEntity(UserDTO userDTO) {
         if (userDTO == null) {
             return null;
         }
-        Users user = new Users();
+        User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setActive(userDTO.isActive());
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
-        user.setPassword(user.getPassword());
+        user.setPassword(userDTO.getPassword());
         return user;
     }
 }
