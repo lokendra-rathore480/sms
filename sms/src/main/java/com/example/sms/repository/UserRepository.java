@@ -1,7 +1,9 @@
 package com.example.sms.repository;
 
-import com.example.sms.entity.Users;
+import com.example.sms.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<Users, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
 }
