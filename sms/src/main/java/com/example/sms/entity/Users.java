@@ -22,7 +22,7 @@ public class Users {
     @Column(unique = true)
     private String email;
     private String password;
-    private boolean isActive;
+    private boolean isActive = true;  //added default value for isActive
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
