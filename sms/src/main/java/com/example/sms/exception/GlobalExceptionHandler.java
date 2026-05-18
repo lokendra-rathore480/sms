@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
         response.setStatus(HttpStatus.BAD_REQUEST);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
         response.setStatus(org.springframework.http.HttpStatus.NOT_FOUND);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AlreadyExistException.class)
@@ -33,6 +33,6 @@ public class GlobalExceptionHandler {
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
         response.setStatus(HttpStatus.CONFLICT);
-        return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }
