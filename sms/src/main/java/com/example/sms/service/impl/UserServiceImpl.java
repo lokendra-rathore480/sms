@@ -35,6 +35,7 @@ public class UserServiceImpl implements IUserService {
         User user = userMapper.toEntity(userDTO);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
+        user.setActive(true);
         User savedUser = userRepository.save(user);
         return userMapper.toDTO(savedUser);
     }
