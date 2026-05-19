@@ -1,5 +1,6 @@
 package com.example.sms.service.impl;
 
+import com.example.sms.constant.ApplicationConstants;
 import com.example.sms.dto.UserDTO;
 import com.example.sms.entity.User;
 import com.example.sms.exception.AlreadyExistException;
@@ -26,11 +27,11 @@ public class UserServiceImpl implements IUserService {
         log.info("Creating user with username: {}", userDTO.getUsername());
         boolean exists = userRepository.existsByUsername(userDTO.getUsername());
         if (exists) {
-            throw new AlreadyExistException("Username already exists");
+            throw new AlreadyExistException(ApplicationConstants.USERNAME_ALREADY_EXIST);
         }
         if(userRepository.existsByEmail(userDTO.getEmail())) {
 
-            throw new AlreadyExistException("Email already exists");
+            throw new AlreadyExistException(ApplicationConstants.EMAIl_ALREADY_EXIST);
         }
         User user = userMapper.toEntity(userDTO);
         user.setCreatedAt(LocalDateTime.now());
@@ -45,10 +46,10 @@ public class UserServiceImpl implements IUserService {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("User not found with id: " + id));
             if (!user.getUsername().equals(userDTO.getUsername()) && userRepository.existsByUsername(userDTO.getUsername())){
-                throw new AlreadyExistException("Username already exists");
+                throw new AlreadyExistException(ApplicationConstants.USERNAME_ALREADY_EXIST);
             }
             if (!user.getEmail().equals(userDTO.getEmail()) && userRepository.existsByEmail(userDTO.getEmail())) {
-                throw new AlreadyExistException("Email already exists");
+                throw new AlreadyExistException(ApplicationConstants.EMAIl_ALREADY_EXIST);
             }
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
