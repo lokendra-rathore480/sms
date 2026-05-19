@@ -1,5 +1,6 @@
 package com.example.sms.controller;
 
+import com.example.sms.dto.PaginationResponseDTO;
 import com.example.sms.dto.UserDTO;
 import com.example.sms.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,12 @@ public class UserController {
     public ResponseEntity<UserDTO> updateUserById(@PathVariable("id")Long id, @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
 
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<PaginationResponseDTO<UserDTO>> getAllUsers(@RequestParam(defaultValue = "0") int pageNo,
+                                                                      @RequestParam(defaultValue = "10") int pageSize,
+                                                                      @RequestParam(defaultValue = "id") String sortBy) {
+        return ResponseEntity.ok(userService.getAllUsers(pageNo, pageSize, sortBy));
     }
 }

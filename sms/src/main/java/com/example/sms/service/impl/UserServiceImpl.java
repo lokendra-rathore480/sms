@@ -1,6 +1,7 @@
 package com.example.sms.service.impl;
 
 import com.example.sms.constant.ApplicationConstants;
+import com.example.sms.dto.PaginationResponseDTO;
 import com.example.sms.dto.UserDTO;
 import com.example.sms.entity.User;
 import com.example.sms.exception.AlreadyExistException;
@@ -10,9 +11,14 @@ import com.example.sms.repository.UserRepository;
 import com.example.sms.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +78,25 @@ public class UserServiceImpl implements IUserService {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("User not found with id: " + id));
         userRepository.delete(user);
+
+    }
+
+    @Override
+    public PaginationResponseDTO<UserDTO> getAllUsers(int pageNo, int pageSize, String sortBy) {
+        Sort sort = sortBy.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<User> userPage = userRepository.findAll(pageable);
+        List<UserDTO> userDTOList = userPage.getContent().stream().map(userMapper::toDTO)
+                .toList();
+        PaginationResponseDTO<UserDTO> paginationResponseDTO = new PaginationResponseDTO<>();
+        paginationResponseDTO.setContent(userDTOList);
+        paginationResponseDTO.setPageNumber(userPage.getNumber());
+        paginationResponseDTO.setPageSize(userPage.getSize());
+        paginationResponseDTO.setTotalElements(userPage.getTotalElements());
+        paginationResponseDTO.setTotalPages(userPage.getTotalPages());
+        paginationResponseDTO.setLast(userPage.isLast());
+        paginationResponseDTO.setSortBy(sortBy);
+        return paginationResponseDTO;
 
     }
 }
