@@ -3,6 +3,7 @@ package com.example.sms.service.impl;
 import com.example.sms.dto.ContactDTO;
 import com.example.sms.entity.Contact;
 import com.example.sms.entity.User;
+import com.example.sms.exception.AlreadyExistException;
 import com.example.sms.exception.NotFoundException;
 import com.example.sms.mapper.ContactMapper;
 import com.example.sms.repository.ContactRepository;
@@ -23,6 +24,11 @@ public class ContactServiceImpl implements IContactService {
 
     @Override
     public ContactDTO createContact(ContactDTO contactDTO) {
+
+        boolean exists = contactRepository.existsByPhoneNumber(contactDTO.getPhoneNumber());
+        if (exists) {
+            throw new AlreadyExistException("Contact with phone number already exists: " + contactDTO.getPhoneNumber());
+        }
         User user = userRepository.findById(contactDTO.getUserId())
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + contactDTO.getUserId()));
         Contact contact = contactMapper.toEntity(contactDTO);

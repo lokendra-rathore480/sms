@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ContactRepository extends JpaRepository<Contact, Long> {
 
     Optional<Contact> findByPhoneNumber(String phoneNumber);
+    boolean existsByPhoneNumber(String phoneNumber);
 }

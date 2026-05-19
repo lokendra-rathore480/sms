@@ -18,12 +18,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
+        ErrorResponse response = new ErrorResponse();
+        response.setSuccess(false);
+        response.setMessage(ex.getMessage());
+        response.setStatus(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
         ErrorResponse response = new ErrorResponse();
         response.setSuccess(false);
         response.setMessage(ex.getMessage());
-        response.setStatus(org.springframework.http.HttpStatus.NOT_FOUND);
+        response.setStatus(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
