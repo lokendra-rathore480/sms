@@ -35,9 +35,9 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<PaginationResponseDTO<UserDTO>> getAllUsers(@RequestParam(defaultValue = "0") int pageNo,
+    public ResponseEntity<PaginationResponseDTO<UserDTO>> getAllUsers(@RequestParam(defaultValue = "0") int pageNumber,
                                                                       @RequestParam(defaultValue = "10") int pageSize,
                                                                       @RequestParam(defaultValue = "id") String sortBy) {
-        return ResponseEntity.ok(userService.getAllUsers(pageNo, pageSize, sortBy));
+        return ResponseEntity.ok(userService.getAllUsers(pageNumber, pageSize, sortBy));
     }
 }
